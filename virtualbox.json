@@ -1,0 +1,36 @@
+{
+    "variables": {
+        "PACKER_OS_FLAVOUR": "centos",
+        "PACKER_OS_VERSION": "7",
+        "PACKER_OS_PURPOSE": "docker",
+        "ISO_URL": "http://ftp.icm.edu.pl/pub/Linux/distributions/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+        "ISO_MD5": "88c0437f0a14c6e2c94426df9d43cd67"
+    },
+    "builders": [
+        {
+            "name": "centos",
+            "type": "virtualbox-iso",
+            "guest_os_type": "RedHat_64",
+            "vm_name": "{{ user `PACKER_OS_FLAVOUR` }}.{{ user `PACKER_OS_VERSION` }}-{{ user `PACKER_OS_PURPOSE` }}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "2048"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"],
+                ["modifyvm", "{{.Name}}", "--audio", "none"]
+            ],
+            "disk_size": "10240",
+            "http_directory": ".",
+            "format": "ova",
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ],
+            "shutdown_command": "/sbin/shutdown -h now",
+            "ssh_username": "root",
+            "ssh_password": "packer",
+            "headless": "false",
+            "ssh_wait_timeout": "600s",
+            "iso_url": "{{ user `ISO_URL` }}",
+            "iso_checksum": "{{ user `ISO_MD5` }}",
+            "iso_checksum_type": "md5"
+        }
+    ]
+}
