@@ -3,8 +3,8 @@
         "PACKER_OS_FLAVOUR": "centos",
         "PACKER_OS_VERSION": "7",
         "PACKER_OS_PURPOSE": "docker",
-        "ISO_URL": "http://ftp.icm.edu.pl/pub/Linux/distributions/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
-        "ISO_MD5": "88c0437f0a14c6e2c94426df9d43cd67"
+        "ISO_URL": "http://ftp.icm.edu.pl/pub/Linux/distributions/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso",
+        "ISO_SHA256": "27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a"
     },
     "builders": [
         {
@@ -29,8 +29,8 @@
             "headless": "false",
             "ssh_wait_timeout": "600s",
             "iso_url": "{{ user `ISO_URL` }}",
-            "iso_checksum": "{{ user `ISO_MD5` }}",
-            "iso_checksum_type": "md5"
+            "iso_checksum": "{{ user `ISO_SHA256` }}",
+            "iso_checksum_type": "sha256"
         }
     ]
 }
