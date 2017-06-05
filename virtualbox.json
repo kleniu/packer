@@ -32,5 +32,24 @@
             "iso_checksum": "{{ user `ISO_SHA256` }}",
             "iso_checksum_type": "sha256"
         }
+    ],
+   "provisioners": [{
+       "type": "shell",
+       "inline": [
+         "echo Provisioning ....",
+         "sleep 30",
+	 "yum -y update",
+         "yum -y install docker",
+         "yum install -y curl",
+         "mkdir /tmp/vboxguest",
+         "mount -t iso9660 -o loop /root/VBoxGuestAdditions.iso /tmp/vboxguest",
+         "yum -y groupinstall 'Development Tools'",
+         "cd /tmp/vboxguest",
+         "./VBoxLinuxAdditions.run",
+         "cd /tmp",
+         "umount /tmp/vboxguest",
+         "rmdir /tmp/vboxguest",
+         "echo Image Provisioned!"
     ]
+  }]
 }
