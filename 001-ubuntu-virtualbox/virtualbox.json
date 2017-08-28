@@ -1,0 +1,49 @@
+{
+    "variables": {
+        "PACKER_OS_FLAVOUR": "ubuntu",
+        "PACKER_OS_VERSION": "16.10",
+        "PACKER_OS_PURPOSE": "hlf",
+        "ISO_URL": "http://old-releases.ubuntu.com/releases/16.10/ubuntu-16.10-server-amd64.iso",
+        "ISO_SHA256": "72b0d421da77f1e0c549b4efe6fc6c184e9909d6792f0d1e59b56d63e9705659"
+    },
+    "builders": [
+        {
+            "name": "ubuntu",
+            "type": "virtualbox-iso",
+            "guest_os_type": "Ubuntu_64",
+            "vm_name": "{{ user `PACKER_OS_FLAVOUR` }}.{{ user `PACKER_OS_VERSION` }}-{{ user `PACKER_OS_PURPOSE` }}",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "2048"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"],
+                ["modifyvm", "{{.Name}}", "--audio", "none"]
+            ],
+            "disk_size": "10240",
+            "http_directory": ".",
+            "format": "ova",
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ],
+            "shutdown_command": "/sbin/shutdown -h now",
+            "ssh_username": "root",
+            "ssh_password": "packer",
+            "headless": "false",
+            "ssh_wait_timeout": "600s",
+            "iso_url": "{{ user `ISO_URL` }}",
+            "iso_checksum": "{{ user `ISO_SHA256` }}",
+            "iso_checksum_type": "sha256"
+        }
+    ],
+   "provisioners": [{
+       "type": "shell",
+       "inline": [
+         "echo Provisioning ....",
+         "sleep 30",
+         "mkdir /tmp/vboxguest",
+         "mount -t iso9660 -o loop /root/VBoxGuestAdditions.iso /tmp/vboxguest",
+         "cd /tmp",
+         "umount /tmp/vboxguest",
+         "rmdir /tmp/vboxguest",
+         "echo Image Provisioned!"
+    ]
+  }]
+}
