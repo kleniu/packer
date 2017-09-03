@@ -1,5 +1,6 @@
 *.log
 .DS_Store
-output-centos/
-packer_cache/
+*/output-centos/
+*/output-ubuntu/
+*/packer_cache/
 .vscode/
