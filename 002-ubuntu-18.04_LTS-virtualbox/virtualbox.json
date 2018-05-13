@@ -43,7 +43,6 @@
        "type": "shell",
        "inline": [
          "echo Provisioning ....",
-         "sleep 30",
          "echo Image Provisioned!"
     ]
   }]
