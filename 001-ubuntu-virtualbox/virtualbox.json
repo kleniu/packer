@@ -42,9 +42,9 @@
             ],
             "shutdown_command": "shutdown -h now",
             "ssh_username": "root",
-            "ssh_password": "ibm4fun",
+            "ssh_password": "IBM4funIBM4fun",
             "headless": "false",
-            "ssh_wait_timeout": "1100s",
+            "ssh_wait_timeout": "1200s",
             "iso_url": "{{ user `ISO_URL` }}",
             "iso_checksum": "{{ user `ISO_SHA256` }}",
             "iso_checksum_type": "sha256"
